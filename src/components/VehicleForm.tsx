@@ -63,7 +63,7 @@ export default function VehicleForm() {
             <div className="flex flex-col items-center w-full">
                 <div className="flex flex-col gap-2 w-full md:w-80">
                     <label htmlFor="diasTrabalhados" className="flex items-center gap-2">
-                        Dias que serão trabalhados no mês*
+                        Dias trabalhados no mês*
                         <button type="button" onClick={() => setHelpText('Informe o total de dias que você irá trabalhar neste mês para calcular seus ganhos e descontos de forma precisa.')}>
                             <QuestionIcon className="fill-white" />
                         </button>

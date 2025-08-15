@@ -4,8 +4,8 @@ import { cva, type VariantProps } from "class-variance-authority";
 export const textVariants = cva("font-sans text-black", {
     variants: {
         variant: {
-            "body-sm-bold": "text-sm leading-5 font-semibold",
-            "body-md-bold": "text-20 leading-8 font-semibold",
+            "body-sm-bold": "text-base leading-5 font-semibold",
+            "body-md-bold": "text-[18px] leading-8 font-semibold",
             "body-lg-bold": "text-2xl leading-8 font-semibold",
             "body-sm": "text-white",
             "body-md": "text-white  hover:bg-green-200"

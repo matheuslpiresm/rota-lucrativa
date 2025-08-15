@@ -48,5 +48,20 @@ npm run dev
 
 O aplicativo estará disponível em http://localhost:5173
 
+### ➡️ Telas do Sistema
+
+O projeto possue 2 telas inicialmente sendo a tela de Dashboard onde são exibidos os feedbacks de custos e ganhos ao usuário e a tela de configurações, onde ele pode alterar os custos de acordo com a realidade dele.
+
+### Dashboard
+![Dashboard](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/dashboard.png)
+
+### Configurações
+![Settings](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/settings.png)
+
+### Dashboard Mobile
+![Dashboard Mobile](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/dashboard-mobile.png)
+
+### Configurações Mobile
+![Settings Mobile](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/settings-mobile.png)
 
 
