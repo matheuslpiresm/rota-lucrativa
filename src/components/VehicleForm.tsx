@@ -54,7 +54,7 @@ export default function VehicleForm() {
         }
     }
 
-    function handlerClear() {
+    function handleClear() {
         reset();
     }
 
@@ -270,7 +270,7 @@ export default function VehicleForm() {
                 />
 
                 <div className="flex md:flex-row w-full md:w-80 gap-2 mt-5">
-                    <Button variant={"secondary"} size={"lg"} className="w-full" onClick={handlerClear} type="button">Limpar</Button>
+                    <Button variant={"secondary"} size={"lg"} className="w-full" onClick={handleClear} type="button">Limpar</Button>
                     <Button size={"lg"} className="w-full" type="submit">Salvar</Button>
                 </div>
             </div>

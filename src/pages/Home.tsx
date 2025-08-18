@@ -6,7 +6,6 @@ import BudgetEntry from "../components/BudgetEntry";
 import type { VehicleFormData } from "../components/VehicleForm";
 
 export default function Home() {
-
     const [ganhos, setGanhos] = useState(0);
     const [distancia, setDistancia] = useState(0);
     const [combustivel, setCombustivel] = useState(0);
@@ -20,7 +19,7 @@ export default function Home() {
     const [lucro, setLucro] = useState(0)
     const [formData, setFormData] = useState<VehicleFormData | null>(null)
 
-    const handlerCalculate = () => {
+    function handleCalculate() {
         if (distancia == 0 || ganhos == 0) {
             alert('Preencha todos os campos')
             return
@@ -49,12 +48,10 @@ export default function Home() {
             setPneus(custoPneus);
             setReserva(custoReserva);
             setLucro(lucroFinal);
-
-
         }
     };
 
-    const handlerClear = () => {
+    function handleClear() {
         setGanhos(0)
         setDistancia(0)
         setCombustivel(0)
@@ -66,18 +63,17 @@ export default function Home() {
         setPneus(0)
         setReserva(0)
         setLucro(0)
-    };
+    }
 
-    const handlerVerifySettings = () => {
+    function handleVerifySettings() {
         if (!formData) {
             alert('É necessário ir na aba de configurações e preencher os dados do veículo');
-            handlerClear();
+            handleClear();
             return
         }
 
-        handlerCalculate()
-    };
-
+        handleCalculate()
+    }
 
     useEffect(() => {
         const storedData = localStorage.getItem('vehicleFormData');
@@ -134,13 +130,12 @@ export default function Home() {
                     }}
 
                     calculateButtonText="Calcular"
-                    onCalculate={handlerVerifySettings}
+                    onCalculate={handleVerifySettings}
 
                     clearButtonText="Limpar"
-                    onClear={handlerClear}
+                    onClear={handleClear}
                 />
             </div>
-
 
             <Text variant="body-md-bold">Custos Diários</Text>
             <div className="flex flex-wrap gap-4 mb-2">
