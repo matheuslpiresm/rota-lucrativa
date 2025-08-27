@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import BudgetEntry from "../components/BudgetEntry";
 import type { VehicleFormData } from "../components/VehicleForm";
 
+
 export default function Home() {
     const [ganhos, setGanhos] = useState(0);
     const [distancia, setDistancia] = useState(0);
@@ -28,14 +29,20 @@ export default function Home() {
         if (formData) {
             const { diasTrabalhados, consumo, precoGasolina, manutencaoValor, manutencaoKm, pneusValor, pneusKm, ipva, licenciamento, seguro, parcela, reserva } = formData
 
-            const custoCombustivel = distancia / consumo * precoGasolina;
-            const custoParcela = parcela / diasTrabalhados;
-            const custoSeguro = seguro / 12 / diasTrabalhados;
-            const custoManutencao = distancia * (manutencaoValor / manutencaoKm);
-            const custoIpva = ipva / 12 / diasTrabalhados;
-            const custoLicenciamento = licenciamento / 12 / diasTrabalhados;
-            const custoPneus = distancia * (pneusValor / pneusKm);
-            const custoReserva = reserva;
+
+            if (!diasTrabalhados || !consumo || !precoGasolina) {
+                alert('Preencha os campos obrigatórios na página de configurações')
+                return
+            }
+
+            const custoCombustivel = consumo ? distancia / consumo * precoGasolina : 0;
+            const custoParcela = diasTrabalhados ? parcela / diasTrabalhados : 0;
+            const custoSeguro = diasTrabalhados ? seguro / 12 / diasTrabalhados : 0;
+            const custoManutencao = manutencaoKm ? distancia * (manutencaoValor / manutencaoKm) : 0;
+            const custoIpva = diasTrabalhados ? ipva / 12 / diasTrabalhados : 0;
+            const custoLicenciamento = diasTrabalhados ? licenciamento / 12 / diasTrabalhados : 0;
+            const custoPneus = pneusKm ? distancia * (pneusValor / pneusKm) : 0;
+            const custoReserva = reserva || 0
 
             const lucroFinal = ganhos - custoCombustivel - custoParcela - custoSeguro - custoManutencao - custoIpva - custoLicenciamento - custoPneus - custoReserva;
 
@@ -48,8 +55,60 @@ export default function Home() {
             setPneus(custoPneus);
             setReserva(custoReserva);
             setLucro(lucroFinal);
+
+            handleSaveDay(lucroFinal)
         }
     };
+
+    console.log(lucro);
+    
+
+    function handleSaveDay(lucroFinal: number) {
+
+        if (lucroFinal === 0 && ganhos === 0) {
+            alert("Calcule os ganhos do dia antes de salvar.");
+            return;
+        }
+
+        const todayDate = new Date().toLocaleDateString('pt-BR');
+
+        const newDayData = {
+            id: new Date().getTime(),
+            date: todayDate,
+            ganhos: ganhos,
+            lucroFinal: lucroFinal,
+            distancia: distancia,
+        };
+
+        try {
+            const existingHistoryJSON = localStorage.getItem('dailyReportsHistory');
+            const existingHistory = existingHistoryJSON ? JSON.parse(existingHistoryJSON) : [];
+
+            const todayIndex = existingHistory.findIndex((report: any) => report.date === todayDate);
+
+            let updatedHistory;
+
+            if (todayIndex > -1) {
+
+                updatedHistory = [...existingHistory];
+
+                updatedHistory[todayIndex] = { ...newDayData, id: existingHistory[todayIndex].id };
+                alert("Dados de hoje atualizados com sucesso!");
+            } else {
+
+                updatedHistory = [...existingHistory, newDayData];
+                alert("Dia salvo com sucesso no histórico!");
+            }
+
+            const dataString = JSON.stringify(updatedHistory);
+            localStorage.setItem('dailyReportsHistory', dataString);
+
+        } catch (error) {
+            console.error("Falha ao salvar o dia no histórico:", error);
+            alert("Ocorreu um erro ao salvar os dados.");
+        }
+    }
+
 
     function handleClear() {
         setGanhos(0)

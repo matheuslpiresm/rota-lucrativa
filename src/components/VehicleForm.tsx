@@ -1,7 +1,7 @@
 import Button from "./Button";
 import QuestionIcon from "../assets/icons/question.svg?react";
 import { useForm } from 'react-hook-form';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Modal from "./Modal";
 
@@ -20,6 +20,21 @@ export interface VehicleFormData {
     reserva: number;
 }
 
+const emptyFormData: VehicleFormData = {
+    diasTrabalhados: 0,
+    consumo: 0,
+    precoGasolina: 0,
+    manutencaoValor: 0,
+    manutencaoKm: 0,
+    pneusValor: 0,
+    pneusKm: 0,
+    ipva: 0,
+    licenciamento: 0,
+    seguro: 0,
+    parcela: 0,
+    reserva: 0,
+};
+
 export default function VehicleForm() {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<VehicleFormData>();
@@ -29,6 +44,7 @@ export default function VehicleForm() {
         message: '',
     });
     const [helpText, setHelpText] = useState<string | null>(null);
+    const [showEditButton, setShowEditButton] = useState<boolean>(false);
 
     function onSubmit(data: VehicleFormData) {
         try {
@@ -55,15 +71,53 @@ export default function VehicleForm() {
     }
 
     function handleClear() {
-        reset();
+        reset(emptyFormData);
     }
+
+    function handleEditForm() {
+        const storedData = localStorage.getItem('vehicleFormData');
+
+        if (storedData) {
+            try {
+                const parsedData: VehicleFormData = JSON.parse(storedData);
+
+                const formattedData: VehicleFormData = {
+                    diasTrabalhados: Number(parsedData.diasTrabalhados),
+                    consumo: Number(parsedData.consumo),
+                    precoGasolina: Number(parsedData.precoGasolina),
+                    manutencaoValor: Number(parsedData.manutencaoValor),
+                    manutencaoKm: Number(parsedData.manutencaoKm),
+                    pneusValor: Number(parsedData.pneusValor),
+                    pneusKm: Number(parsedData.pneusKm),
+                    ipva: Number(parsedData.ipva),
+                    licenciamento: Number(parsedData.licenciamento),
+                    seguro: Number(parsedData.seguro),
+                    parcela: Number(parsedData.parcela),
+                    reserva: Number(parsedData.reserva),
+                };
+
+                reset(formattedData);
+            } catch (error) {
+                console.error('Erro ao fazer o parse dos dados do localStorage:', error);
+            }
+        }
+    }
+
+    useEffect(() => {
+        const storedData = localStorage.getItem('vehicleFormData');
+
+        if (storedData) {
+            setShowEditButton(true)
+
+        }
+    }, []);
 
     return (
         <form className="bg-blue-100 p-4 rounded-lg max-w-md w-full text-white flex justify-center" onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col items-center w-full">
                 <div className="flex flex-col gap-2 w-full md:w-80">
                     <label htmlFor="diasTrabalhados" className="flex items-center gap-2">
-                        Dias trabalhados no mês*
+                        Dias trabalhados no mês<span className="text-red-100 text-sm ">*</span>
                         <button type="button" onClick={() => setHelpText('Informe o total de dias que você irá trabalhar neste mês para calcular seus ganhos e descontos de forma precisa.')}>
                             <QuestionIcon className="fill-white" />
                         </button>
@@ -80,7 +134,7 @@ export default function VehicleForm() {
 
                 <div className="flex flex-col gap-2 w-full md:w-80">
                     <label htmlFor="consumoVeiculo" className="flex items-center gap-2 mt-2">
-                        Consumo do Veículo*
+                        Consumo do Veículo<span className="text-red-100 text-sm ">*</span>
                         <button type="button" onClick={() => setHelpText('Informe o consumo médio do seu veículo em quilômetros por litro (km/L).')}>
                             <QuestionIcon className="fill-white" />
                         </button>
@@ -98,7 +152,7 @@ export default function VehicleForm() {
 
                 <div className="flex flex-col gap-2 w-full md:w-80">
                     <label htmlFor="precoGasolina" className="flex items-center gap-2 mt-2">
-                        Preço da Gasolina*
+                        Preço da Gasolina<span className="text-red-100 text-sm ">*</span>
                         <button type="button" onClick={() => setHelpText('Informe o preço atual pago por cada litro de gasolina.')}>
                             <QuestionIcon className="fill-white" />
                         </button>
@@ -138,7 +192,8 @@ export default function VehicleForm() {
                             className="bg-white px-2 p-0.5 rounded text-black border-gray-300 w-full md:w-1/2"
                             {...register('manutencaoKm', {
                                 setValueAs: value => {
-                                    const cleanValue = value.replace(/[.,]/g, '');
+                                    if (!value) return 0;
+                                    const cleanValue = String(value).replace(/[.,]/g, '');
                                     return Number(cleanValue);
                                 }
                             })}
@@ -169,7 +224,8 @@ export default function VehicleForm() {
                             className="bg-white px-2 p-0.5 rounded text-black border-gray-300 w-full md:w-1/2"
                             {...register('pneusKm', {
                                 setValueAs: value => {
-                                    const cleanValue = value.replace(/[.,]/g, '');
+                                    if (!value) return 0;
+                                    const cleanValue = String(value).replace(/[.,]/g, '');
                                     return Number(cleanValue);
                                 }
                             })}
@@ -271,6 +327,7 @@ export default function VehicleForm() {
 
                 <div className="flex md:flex-row w-full md:w-80 gap-2 mt-5">
                     <Button variant={"secondary"} size={"lg"} className="w-full" onClick={handleClear} type="button">Limpar</Button>
+                    {showEditButton && <Button variant={"terciary"} size={"lg"} className="w-full" type="button" onClick={handleEditForm}>Editar</Button>}
                     <Button size={"lg"} className="w-full" type="submit">Salvar</Button>
                 </div>
             </div>

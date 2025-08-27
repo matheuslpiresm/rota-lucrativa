@@ -9,7 +9,8 @@ export const buttonVariants = cva(`
     variants: {
         variant: {
             primary: "bg-green-200 hover:bg-green-100",
-            secondary: "bg-red-200 hover:bg-red-100"
+            secondary: "bg-red-200 hover:bg-red-100",
+            terciary: "bg-blue-200  hover:bg-blue-300"
         },
         size: {
             sm: "h-12",
@@ -30,7 +31,8 @@ export const buttonIconVariants = cva("transition", {
     variants: {
         variant: {
             primary: "fill-white",
-            secondary: "fill-black"
+            secondary: "fill-black",
+            terciary: "fill-green-100"
         },
         size: {
             sm: "w-4 h-3.5 ml-4",

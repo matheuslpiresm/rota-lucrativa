@@ -8,7 +8,8 @@ export const textVariants = cva("font-sans text-black", {
             "body-md-bold": "text-[18px] leading-8 font-semibold",
             "body-lg-bold": "text-2xl leading-8 font-semibold",
             "body-sm": "text-white",
-            "body-md": "text-white  hover:bg-green-200"
+            "body-md": "text-white  hover:bg-green-200",
+            "table-body": "text-sm text-gray-700",
         }
     },
     defaultVariants: {

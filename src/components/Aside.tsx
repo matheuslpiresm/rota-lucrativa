@@ -4,6 +4,7 @@ import Text from "./Text";
 import Logo from "../assets/images/brand.svg?react";
 import DashboardIcon from "../assets/icons/dashboard.svg?react";
 import SettingsIcon from "../assets/icons/settings.svg?react";
+import HistoryIcon from "../assets/icons/history.svg?react";
 import CloseIcon from "../assets/icons/close.svg?react";
 
 interface AsideProps {
@@ -12,7 +13,7 @@ interface AsideProps {
 
 export default function Aside({ closeMenu }: AsideProps) {
     return (
-        <Container as="aside" className="w-60 bg-blue-200 h-full">
+        <Container as="aside" className="w-60 bg-blue-400 h-full">
             <nav className="flex flex-col gap-4 mt-9 p-2">
                 <div className="flex justify-between items-center">
                     <NavLink to="/" onClick={closeMenu}>
@@ -34,6 +35,13 @@ export default function Aside({ closeMenu }: AsideProps) {
                     <SettingsIcon className="w-5 h-5 fill-white" />
                     <Text variant={"body-sm"}>
                         Configurações
+                    </Text>
+                </NavLink>
+
+                <NavLink to="/history" className="flex items-center gap-2 px-4 py-2.5 hover:bg-blue-100 rounded-2xl" onClick={closeMenu}>
+                    <HistoryIcon className="w-4.5 h-5 fill-white" />
+                    <Text variant={"body-sm"}>
+                        Histórico
                     </Text>
                 </NavLink>
             </nav>

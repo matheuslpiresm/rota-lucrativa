@@ -9,7 +9,7 @@ export default function Layout() {
     return (
         <div className="relative min-h-screen md:flex">
             <div
-                className={`fixed inset-y-0 left-0 transform bg-blue-200 w-60 z-40 transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
+                className={`fixed inset-y-0 left-0 transform bg-blue-400 w-60 z-40 transition-transform duration-300 ease-in-out md:relative md:translate-x-0 ${isMenuOpen ? "translate-x-0" : "-translate-x-full"
                     }`}
             >
                 <Aside closeMenu={() => setIsMenuOpen(false)} />
