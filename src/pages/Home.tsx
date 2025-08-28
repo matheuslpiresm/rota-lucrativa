@@ -60,9 +60,6 @@ export default function Home() {
         }
     };
 
-    console.log(lucro);
-    
-
     function handleSaveDay(lucroFinal: number) {
 
         if (lucroFinal === 0 && ganhos === 0) {

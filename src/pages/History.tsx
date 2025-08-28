@@ -44,7 +44,7 @@ export default function History() {
             totalLucro += report.lucroFinal;
         });
 
-        doc.line(10, y, 200, y);
+        doc.line(5, y, 190, y);
         y += 5;
         doc.setFontSize(12).text('TOTAL', 10, y);
         doc.text(`R$ ${totalGanhos.toFixed(2)}`, 60, y);
@@ -68,7 +68,7 @@ export default function History() {
     if (reports.length === 0) {
         return (
             <Container>
-                <Text variant="body-md-bold" className="mb-4">Histórico</Text>
+                <Text variant="body-md-bold" className="mb-4 flex">Histórico</Text>
                 <Text>Nenhum registro encontrado.</Text>
             </Container>
         );
