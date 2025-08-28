@@ -60,12 +60,19 @@ export default function BudgetEntry({
         >
             <div className="flex flex-col md:flex-row justify-between items-center w-full gap-6">
                 <div className="flex flex-col gap-4 w-full">
-                    {inputs.map((input, index) => (
-                        <div key={index} className="flex flex-col">
-                            <Text variant="body-sm">{input.label}</Text>
-                            <InputText {...input} className="w-full md:w-45" />
-                        </div>
-                    ))}
+                    {inputs.map((input, index) => {
+
+                        const inputClasses = input.type === 'date'
+                            ? 'w-70 md:w-45 px-2'
+                            : 'w-full md:w-45';
+
+                        return (
+                            <div key={index} className="flex flex-col">
+                                <Text variant="body-sm">{input.label}</Text>
+                                <InputText {...input} className={inputClasses} />
+                            </div>
+                        );
+                    })}
                 </div>
 
                 <div className="flex sm:flex-row gap-4 w-full">

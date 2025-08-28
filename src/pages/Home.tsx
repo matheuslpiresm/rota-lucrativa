@@ -38,7 +38,8 @@ export default function Home() {
             type: "number",
         },
         {
-            label: "Data de Início",
+            label: "Data",
+            placeholder: "0 km",
             type: "date",
             value: date ? date : "",
             onChange: (e: React.ChangeEvent<HTMLInputElement>) => setDate((e.target.value)),
@@ -193,33 +194,6 @@ export default function Home() {
             <Text variant="body-md-bold">Dashboard</Text>
 
             <div>
-                {/* <BudgetEntry
-                    variant="secondary"
-                    size="lg"
-
-                    firstInput={{
-                        label: "Ganhos do dia",
-                        value: ganhos ? ganhos : "",
-                        onChange: (e) => setGanhos(Number(e.target.value)),
-                        placeholder: "R$ 0,00",
-                        type: "number",
-                    }}
-
-                    secondInput={{
-                        label: "KM Rodado",
-                        value: distancia ? distancia : "",
-                        onChange: (e) => setDistancia(Number(e.target.value)),
-                        placeholder: "0 km",
-                        type: "number",
-                    }}
-
-                    calculateButtonText="Calcular"
-                    onCalculate={handleVerifySettings}
-
-                    clearButtonText="Limpar"
-                    onClear={handleClear}
-                /> */}
-
                 <BudgetEntry
                     variant="secondary"
                     size="lg"
