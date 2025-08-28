@@ -21,7 +21,6 @@ export default function Home() {
     const [lucro, setLucro] = useState(0)
     const [formData, setFormData] = useState<VehicleFormData | null>(null)
 
-
     const myInputs = [
         {
             label: "Ganhos do dia",
@@ -83,11 +82,11 @@ export default function Home() {
             setLucro(lucroFinal);
 
             handleSaveDay(lucroFinal)
+            handleClearEntry()
         }
     };
 
     function handleSaveDay(lucroFinal: number) {
-
         if (lucroFinal === 0 && ganhos === 0) {
             alert("Calcule os ganhos do dia antes de salvar.");
             return;
@@ -120,11 +119,11 @@ export default function Home() {
                 updatedHistory = [...existingHistory];
 
                 updatedHistory[todayIndex] = { ...newDayData, id: existingHistory[todayIndex].id };
-                alert("Dados de hoje atualizados com sucesso!");
+                alert("Dados atualizados com sucesso!");
             } else {
 
                 updatedHistory = [...existingHistory, newDayData];
-                alert("Dia salvo com sucesso no histórico!");
+                alert("Dados salvos com sucesso!");
             }
 
             const dataString = JSON.stringify(updatedHistory);
@@ -148,6 +147,13 @@ export default function Home() {
         setPneus(0)
         setReserva(0)
         setLucro(0)
+        setDate('0')
+    }
+
+    function handleClearEntry() {
+        setGanhos(0)
+        setDistancia(0)
+        setDate('0')
     }
 
     function handleVerifySettings() {

@@ -58,10 +58,15 @@ O projeto possue 2 telas inicialmente sendo a tela de Dashboard onde são exibid
 ### Configurações
 ![Settings](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/settings.png)
 
+### Histórico
+![Settings](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/history.png)
+
 ### Dashboard Mobile
 ![Dashboard Mobile](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/dashboard-mobile.png)
 
 ### Configurações Mobile
 ![Settings Mobile](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/settings-mobile.png)
 
+### Histórico Mobile
+![Settings Mobile](https://github.com/matheuslpiresm/rota-lucrativa/blob/main/src/assets/images/history-mobile.png)
 
