@@ -9,6 +9,7 @@ import type { VehicleFormData } from "../components/VehicleForm";
 export default function Home() {
     const [ganhos, setGanhos] = useState(0);
     const [distancia, setDistancia] = useState(0);
+    const [date, setDate] = useState('');
     const [combustivel, setCombustivel] = useState(0);
     const [parcela, setParcela] = useState(0);
     const [seguro, setSeguro] = useState(0);
@@ -19,6 +20,30 @@ export default function Home() {
     const [reserva, setReserva] = useState(0);
     const [lucro, setLucro] = useState(0)
     const [formData, setFormData] = useState<VehicleFormData | null>(null)
+
+
+    const myInputs = [
+        {
+            label: "Ganhos do dia",
+            value: ganhos ? ganhos : "",
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setGanhos(Number(e.target.value)),
+            placeholder: "R$ 0,00",
+            type: "number",
+        },
+        {
+            label: "KM Rodado",
+            value: distancia ? distancia : "",
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setDistancia(Number(e.target.value)),
+            placeholder: "0 km",
+            type: "number",
+        },
+        {
+            label: "Data de Início",
+            type: "date",
+            value: date ? date : "",
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => setDate((e.target.value)),
+        }
+    ];
 
     function handleCalculate() {
         if (distancia == 0 || ganhos == 0) {
@@ -67,11 +92,15 @@ export default function Home() {
             return;
         }
 
-        const todayDate = new Date().toLocaleDateString('pt-BR');
+        const [year, month, day] = date.split('-').map(Number);
+
+        const localDate = new Date(year, month - 1, day);
+
+        const currentlyDate = localDate.toLocaleDateString('pt-BR');
 
         const newDayData = {
             id: new Date().getTime(),
-            date: todayDate,
+            date: currentlyDate,
             ganhos: ganhos,
             lucroFinal: lucroFinal,
             distancia: distancia,
@@ -81,7 +110,7 @@ export default function Home() {
             const existingHistoryJSON = localStorage.getItem('dailyReportsHistory');
             const existingHistory = existingHistoryJSON ? JSON.parse(existingHistoryJSON) : [];
 
-            const todayIndex = existingHistory.findIndex((report: any) => report.date === todayDate);
+            const todayIndex = existingHistory.findIndex((report: any) => report.date === currentlyDate);
 
             let updatedHistory;
 
@@ -105,7 +134,6 @@ export default function Home() {
             alert("Ocorreu um erro ao salvar os dados.");
         }
     }
-
 
     function handleClear() {
         setGanhos(0)
@@ -165,7 +193,7 @@ export default function Home() {
             <Text variant="body-md-bold">Dashboard</Text>
 
             <div>
-                <BudgetEntry
+                {/* <BudgetEntry
                     variant="secondary"
                     size="lg"
 
@@ -188,6 +216,16 @@ export default function Home() {
                     calculateButtonText="Calcular"
                     onCalculate={handleVerifySettings}
 
+                    clearButtonText="Limpar"
+                    onClear={handleClear}
+                /> */}
+
+                <BudgetEntry
+                    variant="secondary"
+                    size="lg"
+                    inputs={myInputs}
+                    calculateButtonText="Calcular"
+                    onCalculate={handleVerifySettings}
                     clearButtonText="Limpar"
                     onClear={handleClear}
                 />

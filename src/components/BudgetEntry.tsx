@@ -33,8 +33,7 @@ interface BudgetProps
     extends React.ComponentProps<"div">,
     VariantProps<typeof budgetEntryVariants> {
 
-    firstInput: InputFieldProps;
-    secondInput: InputFieldProps;
+    inputs: InputFieldProps[];
 
     calculateButtonText: string;
     onCalculate: () => void;
@@ -47,8 +46,7 @@ export default function BudgetEntry({
     variant,
     size,
     className,
-    firstInput,
-    secondInput,
+    inputs,
     calculateButtonText,
     onCalculate,
     clearButtonText,
@@ -62,26 +60,18 @@ export default function BudgetEntry({
         >
             <div className="flex flex-col md:flex-row justify-between items-center w-full gap-6">
                 <div className="flex flex-col gap-4 w-full">
-
-                    <div className="flex flex-col">
-                        <Text variant="body-sm">{firstInput.label}</Text>
-
-                        <InputText {...firstInput} className="w-full md:w-45" />
-                    </div>
-
-                    <div className="flex flex-col">
-                        <Text variant="body-sm">{secondInput.label}</Text>
-                        <InputText {...secondInput} className="w-full md:w-45" />
-                    </div>
-
+                    {inputs.map((input, index) => (
+                        <div key={index} className="flex flex-col">
+                            <Text variant="body-sm">{input.label}</Text>
+                            <InputText {...input} className="w-full md:w-45" />
+                        </div>
+                    ))}
                 </div>
 
                 <div className="flex sm:flex-row gap-4 w-full">
-
                     <Button onClick={onClear} size={"lg"} variant={"secondary"} className="w-full">
                         {clearButtonText}
                     </Button>
-
                     <Button onClick={onCalculate} size={"lg"} className="w-full">
                         {calculateButtonText}
                     </Button>

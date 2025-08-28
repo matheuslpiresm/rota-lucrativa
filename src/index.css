@@ -7,12 +7,20 @@
     --color-blue-200: #193662;
     --color-blue-300: #1a3c70;
     --color-blue-400: #13243E;
-    --color-green-100: #2ac553; 
+    --color-green-100: #2ac553;
     --color-green-200: #1FA743;
     --color-gray-100: #F2F2F2;
     --color-gray-200: #B2AFAF;
+    --color-gray-300: #9d9797;
     --color-black: #000000;
     --color-red-100: #ff0000;
     --color-red-200: #d00000;
     --font-sans: "Inter", sans-serif;
+}
+
+@layer components {
+    input::placeholder {
+        @apply text-black;
+    }
+
 }

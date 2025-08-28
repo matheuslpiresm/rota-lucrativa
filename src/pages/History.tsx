@@ -50,7 +50,7 @@ export default function History() {
         doc.text(`R$ ${totalGanhos.toFixed(2)}`, 60, y);
         doc.text(`R$ ${totalLucro.toFixed(2)}`, 160, y);
 
-        doc.save('historico_de_relatorios.pdf');
+        doc.save('historico.pdf');
     }
 
     useEffect(() => {
