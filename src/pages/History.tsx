@@ -141,7 +141,7 @@ export default function History() {
         const currentMonth = new Date().getMonth() + 1;
 
         const monthReports = reports.filter(item => {
-            const [day, month, year] = item.date.split('/');
+            const [month, year] = item.date.split('/');
 
             return parseInt(month) === currentMonth && parseInt(year) === currentYear;
         });
