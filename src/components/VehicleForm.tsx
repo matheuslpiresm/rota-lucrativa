@@ -59,7 +59,7 @@ export default function VehicleForm() {
 
             setTimeout(() => {
                 navigate('/');
-            }, 2000);
+            }, 1000);
 
         } catch (error) {
             console.error('Erro ao salvar os dados no localStorage:', error);

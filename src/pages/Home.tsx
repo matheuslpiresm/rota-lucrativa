@@ -4,7 +4,24 @@ import Text from "../components/Text";
 import { useEffect, useState } from "react";
 import BudgetEntry from "../components/BudgetEntry";
 import type { VehicleFormData } from "../components/VehicleForm";
+import Modal from "../components/Modal";
 
+
+export interface DailyDate {
+    id: number;
+    date: string;
+    ganhos: number,
+    distancia: number,
+    resultadoFinal: number,
+    combustivel: number,
+    parcela: number,
+    seguro: number,
+    manutencao: number,
+    ipva: number,
+    licenciamento: number,
+    pneus: number,
+    reserva: number,
+}
 
 export default function Home() {
     const [ganhos, setGanhos] = useState(0);
@@ -18,8 +35,10 @@ export default function Home() {
     const [licenciamento, setLicenciamento] = useState(0);
     const [pneus, setPneus] = useState(0);
     const [reserva, setReserva] = useState(0);
-    const [lucro, setLucro] = useState(0)
+    const [resultado, setResultado] = useState(0)
     const [formData, setFormData] = useState<VehicleFormData | null>(null)
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
 
     const myInputs = [
         {
@@ -46,8 +65,9 @@ export default function Home() {
     ];
 
     function handleCalculate() {
-        if (distancia == 0 || ganhos == 0) {
-            alert('Preencha todos os campos')
+        if (distancia == 0 || ganhos == 0 || !date) {
+            setModalMessage('Preencha todos os campos');
+            setIsModalVisible(true);
             return
         }
 
@@ -56,7 +76,8 @@ export default function Home() {
 
 
             if (!diasTrabalhados || !consumo || !precoGasolina) {
-                alert('Preencha os campos obrigatórios na página de configurações')
+                setModalMessage('Preencha os campos obrigatórios na página de configurações');
+                setIsModalVisible(true);
                 return
             }
 
@@ -69,7 +90,31 @@ export default function Home() {
             const custoPneus = pneusKm ? distancia * (pneusValor / pneusKm) : 0;
             const custoReserva = reserva || 0
 
-            const lucroFinal = ganhos - custoCombustivel - custoParcela - custoSeguro - custoManutencao - custoIpva - custoLicenciamento - custoPneus - custoReserva;
+            const resultadoFinal = ganhos - custoCombustivel - custoParcela - custoSeguro - custoManutencao - custoIpva - custoLicenciamento - custoPneus - custoReserva;
+
+            const [year, month, day] = date.split('-').map(Number);
+            const localDate = new Date(year, month - 1, day);
+            const currentlyDate = localDate.toLocaleDateString('pt-BR');
+            const id = new Date().getTime();
+
+
+            const data: DailyDate[] = [{
+                id,
+                date: currentlyDate,
+                ganhos,
+                distancia,
+                resultadoFinal,
+                combustivel: custoCombustivel,
+                parcela: custoParcela,
+                seguro: custoSeguro,
+                manutencao: custoManutencao,
+                ipva: custoIpva,
+                licenciamento: custoLicenciamento,
+                pneus: custoPneus,
+                reserva: custoReserva,
+            }];
+
+            handleSaveDay(data)
 
             setCombustivel(custoCombustivel);
             setParcela(custoParcela);
@@ -79,16 +124,17 @@ export default function Home() {
             setLicenciamento(custoLicenciamento);
             setPneus(custoPneus);
             setReserva(custoReserva);
-            setLucro(lucroFinal);
+            setResultado(resultadoFinal);
 
-            handleSaveDay(lucroFinal)
             handleClearEntry()
         }
     };
 
-    function handleSaveDay(lucroFinal: number) {
-        if (lucroFinal === 0 && ganhos === 0) {
-            alert("Calcule os ganhos do dia antes de salvar.");
+    function handleSaveDay(dataArray: DailyDate[]) {
+        const [{ ganhos, distancia, resultadoFinal, combustivel, parcela, seguro, manutencao, ipva, licenciamento, pneus, reserva }] = dataArray
+        if (resultadoFinal === 0 && ganhos === 0) {
+            setModalMessage('Calcule os ganhos do dia antes de salvar.');
+            setIsModalVisible(true);
             return;
         }
 
@@ -101,8 +147,16 @@ export default function Home() {
         const newDayData = {
             id: new Date().getTime(),
             date: currentlyDate,
+            combustivel: combustivel,
+            parcela: parcela,
+            seguro: seguro,
+            manutencao: manutencao,
+            ipva: ipva,
+            licenciamento: licenciamento,
+            pneus: pneus,
             ganhos: ganhos,
-            lucroFinal: lucroFinal,
+            reserva: reserva,
+            resultadoFinal: resultadoFinal,
             distancia: distancia,
         };
 
@@ -119,11 +173,13 @@ export default function Home() {
                 updatedHistory = [...existingHistory];
 
                 updatedHistory[todayIndex] = { ...newDayData, id: existingHistory[todayIndex].id };
-                alert("Dados atualizados com sucesso!");
+                setModalMessage('Dados atualizados com sucesso!');
+                setIsModalVisible(true);
             } else {
 
                 updatedHistory = [...existingHistory, newDayData];
-                alert("Dados salvos com sucesso!");
+                setModalMessage('Dados salvos com sucesso!');
+                setIsModalVisible(true);
             }
 
             const dataString = JSON.stringify(updatedHistory);
@@ -131,7 +187,8 @@ export default function Home() {
 
         } catch (error) {
             console.error("Falha ao salvar o dia no histórico:", error);
-            alert("Ocorreu um erro ao salvar os dados.");
+            setModalMessage('Ocorreu um erro ao salvar os dados.');
+            setIsModalVisible(true);
         }
     }
 
@@ -146,19 +203,20 @@ export default function Home() {
         setLicenciamento(0)
         setPneus(0)
         setReserva(0)
-        setLucro(0)
-        setDate('0')
+        setResultado(0)
+        setDate('')
     }
 
     function handleClearEntry() {
         setGanhos(0)
         setDistancia(0)
-        setDate('0')
+        setDate('')
     }
 
     function handleVerifySettings() {
         if (!formData) {
-            alert('É necessário ir na aba de configurações e preencher os dados do veículo');
+            setModalMessage('É necessário ir na aba de configurações e preencher os dados do veículo.');
+            setIsModalVisible(true);
             handleClear();
             return
         }
@@ -208,6 +266,7 @@ export default function Home() {
                     onCalculate={handleVerifySettings}
                     clearButtonText="Limpar"
                     onClear={handleClear}
+                    className="mb-3"
                 />
             </div>
 
@@ -269,7 +328,7 @@ export default function Home() {
                     <span
                         style={{
                             fontSize: '20px',
-                            color: lucro >= 0 ? '#2ac553' : '#ff0000',
+                            color: resultado >= 0 ? '#2ac553' : '#ff0000',
                         }}
                     >
                         Resultado do Dia
@@ -279,12 +338,26 @@ export default function Home() {
                     <span
                         style={{
                             fontSize: '20px',
-                            color: lucro >= 0 ? '#2ac553' : '#ff0000',
+                            color: resultado >= 0 ? '#2ac553' : '#ff0000',
                         }}
                     >
-                        {`R$ ${lucro.toFixed(2)}`}
+                        {`R$ ${resultado.toFixed(2)}`}
                     </span>
                 }
+            />
+
+            <Modal
+                isVisible={isModalVisible}
+                message={
+                    <div>
+                        <Text variant="table-body">{modalMessage}</Text>
+                    </div>
+                }
+
+                onClose={() => {
+                    setIsModalVisible(false);
+                    setModalMessage('');
+                }}
             />
         </Container>
     )

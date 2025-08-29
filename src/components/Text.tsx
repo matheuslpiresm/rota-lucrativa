@@ -9,7 +9,7 @@ export const textVariants = cva("font-sans text-black", {
             "body-lg-bold": "text-2xl leading-8 font-semibold",
             "body-sm": "text-white",
             "body-md": "text-white  hover:bg-green-200",
-            "table-body": "text-sm text-gray-700",
+            "table-body": "text-base text-gray-700",
         }
     },
     defaultVariants: {
