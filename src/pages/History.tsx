@@ -84,7 +84,7 @@ export default function History() {
         y += 5;
         doc.setFontSize(10).text('Total', 5, y);
         doc.text(`R$${totalGanhos.toFixed(2)}`, 18, y);
-        doc.text(`${totalDistancia}km`, 39, y);
+        doc.text(`${totalDistancia.toFixed(2)}km`, 39, y);
         doc.text(`R$${totalCombustivel.toFixed(2)}`, 58, y);
         doc.text(`R$${totalParcela.toFixed(2)}`, 77, y);
         doc.text(`R$${totalSeguro.toFixed(2)}`, 94, y);
