@@ -141,7 +141,7 @@ export default function History() {
         const currentMonth = new Date().getMonth() + 1;
 
         const monthReports = reports.filter(item => {
-            const [month, year] = item.date.split('/');
+            const [, month, year] = item.date.split('/');
 
             return parseInt(month) === currentMonth && parseInt(year) === currentYear;
         });
@@ -152,7 +152,7 @@ export default function History() {
 
             doc.text(dateWithoutYear, 5, y);
             doc.text(`${report.ganhos.toFixed(2)}`, 19, y);
-            doc.text(`${report.distancia} km`, 39, y);
+            doc.text(`${report.distancia.toFixed(2)} km`, 39, y);
             doc.text(`${report.combustivel.toFixed(2)}`, 61, y);
             doc.text(`${report.parcela.toFixed(2)}`, 79, y);
             doc.text(`${report.seguro.toFixed(2)}`, 96, y);
